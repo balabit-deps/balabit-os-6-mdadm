@@ -1,0 +1,21 @@
+Description: fallback to dmraid fakeraid assembly, if requested
+ Take kernel cmdline parameters "nomdmonisw" and "nomdmonddf" into
+ account, when assembling imsm/ddf arrays. This defaults to assembling
+ those arrays using mdmon/mdadm, with a fallback to dmraid upon
+ request.
+Author: Dimitri John Ledkov <xnox@ubuntu.com>
+
+--- a/udev-md-raid-assembly.rules
++++ b/udev-md-raid-assembly.rules
+@@ -4,6 +4,11 @@
+ 
+ SUBSYSTEM!="block", GOTO="md_inc_end"
+ 
++IMPORT{cmdline}="nomdmonisw"
++IMPORT{cmdline}="nomdmonddf"
++ENV{nomdmonisw}=="1", ENV{ID_FS_TYPE}=="isw_raid_member", GOTO="md_inc_end"
++ENV{nomdmonddf}=="1", ENV{ID_FS_TYPE}=="ddf_raid_member", GOTO="md_inc_end"
++
+ # handle potential components of arrays (the ones supported by md)
+ ENV{ID_FS_TYPE}=="ddf_raid_member|isw_raid_member|linux_raid_member", GOTO="md_inc"
+ GOTO="md_inc_end"

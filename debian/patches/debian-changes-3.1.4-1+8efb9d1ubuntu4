@@ -1,0 +1,63 @@
+Description: Upstream changes introduced in version 3.1.4-1+8efb9d1ubuntu4
+ This patch has been created by dpkg-source during the package build.
+ Here's the last changelog entry, hopefully it gives details on why
+ those changes were made:
+ .
+ mdadm (3.1.4-1+8efb9d1ubuntu4) natty; urgency=low
+ .
+   * mdadm udev rule incrementally adds mdadm member when detected. Starting
+     such an array in degraded mode is possible by mdadm -IRs. Using mdadm -ARs
+     without stopping the array first does nothing when no mdarray-unassociated
+     device is available. Using mdadm -IRs to start a previously partially
+     assembled array through incremental mode. Keeping the mdadm -ARs for
+     assembling arrays which were for some reason not assembled through
+     incremental mode (i.e through mdadm's udev rule). (LP: #728435)
+ .
+ The person named in the Author field signed this changelog entry.
+Author: Surbhi Palande <surbhi.palande@canonical.com>
+Bug-Ubuntu: https://bugs.launchpad.net/bugs/728435
+
+---
+The information above should follow the Patch Tagging Guidelines, please
+checkout http://dep.debian.net/deps/dep3/ to learn about the format. Here
+are templates for supplementary fields that you might want to add:
+
+Origin: <vendor|upstream|other>, <url of original patch>
+Bug: <url in upstream bugtracker>
+Bug-Debian: http://bugs.debian.org/<bugnumber>
+Bug-Ubuntu: https://launchpad.net/bugs/<bugnumber>
+Forwarded: <no|not-needed|url proving that it has been forwarded>
+Reviewed-By: <name and email of someone who approved the patch>
+Last-Update: <YYYY-MM-DD>
+
+--- mdadm-3.1.4.orig/Assemble.c
++++ mdadm-3.1.4/Assemble.c
+@@ -24,6 +24,7 @@
+ 
+ #include	"mdadm.h"
+ #include	<ctype.h>
++#include	<assert.h>
+ 
+ static int name_matches(char *found, char *required, char *homehost)
+ {
+--- mdadm-3.1.4.orig/config.c
++++ mdadm-3.1.4/config.c
+@@ -30,6 +30,7 @@
+ #include	<ctype.h>
+ #include	<pwd.h>
+ #include	<grp.h>
++#include	<assert.h>
+ 
+ /*
+  * Read the config file
+--- mdadm-3.1.4.orig/ReadMe.c
++++ mdadm-3.1.4/ReadMe.c
+@@ -366,7 +366,7 @@ char Help_build[] =
+ "\n"
+ " This usage is similar to --create.  The difference is that it creates\n"
+ " a legacy array without a superblock.  With these arrays there is no\n"
+-" different between initially creating the array and subsequently\n"
++" difference between initially creating the array and subsequently\n"
+ " assembling the array, except that hopefully there is useful data\n"
+ " there in the second case.\n"
+ "\n"
