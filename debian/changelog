@@ -1,3 +1,23 @@
+mdadm (3.3-2ubuntu7.2) xenial; urgency=medium
+
+  * Backport initramfs changes from 3.4-4, to improve reliability of
+    booting with degraded arrays. LP: #1635049
+
+  * debian/initramfs/hook:
+    - Fix UUID= grep for configured RAIDs to be case insensitive.
+    - Drop CREATE stanzas from mkconf and don't include them in the
+    initramfs. The generated defaults, are the compiled-in defaults. And
+    the current one generates warnings when running mdadm in the
+    initramfs, as there is no passwd|group files to resolve root/disk
+    uid/gid.
+  * debian/initrmafs/script.local-block|script.local-bottom:
+    - Use local-block integration scrips, in favor of root-fail hooks to
+    activate incomplete arrays.
+  * debian/initramfs/init-premount|mdadm-functions:
+    - Drop, no longer in use.
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Mon, 20 Feb 2017 10:57:43 +0000
+
 mdadm (3.3-2ubuntu7.1) xenial-proposed; urgency=medium
 
   * debian/source_mdadm.py: fix bytes versus strings mismatch that

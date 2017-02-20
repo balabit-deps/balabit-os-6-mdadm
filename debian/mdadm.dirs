@@ -3,8 +3,6 @@ etc/mdadm
 etc/default/grub.d
 usr/share/mdadm
 /usr/share/apport/package-hooks
-usr/share/initramfs-tools/hooks
-usr/share/initramfs-tools/scripts/init-premount
 usr/share/bug/mdadm
 usr/share/lintian/overrides
 var/lib/mdadm
