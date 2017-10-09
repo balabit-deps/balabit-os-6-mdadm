@@ -5,3 +5,4 @@ sha1-includes.diff
 remove-bashism-from-makefile.patch
 #disable use-external-blkid.diff in ubuntu
 dmraid-fallback.patch
+mdadm-monitor-fix-nullptr-dereference-when-get_md_na.patch

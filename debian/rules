@@ -74,6 +74,9 @@ install: build $(INTERPOLATED_FILES)
 	install -Dm0755 debian/initramfs/script.local-bottom \
 		$(DESTDIR)/usr/share/initramfs-tools/scripts/local-bottom/mdadm
 
+	install -Dm0755 debian/mdadm.shutdown \
+		$(DESTDIR)/lib/systemd/system-shutdown/mdadm.shutdown
+
 	install -m0755 debian/mkconf $(DESTDIR)/usr/share/mdadm
 	install -m0755 debian/checkarray $(DESTDIR)/usr/share/mdadm
 	install -m0755 debian/bugscript $(DESTDIR)/usr/share/bug/mdadm/script
@@ -82,6 +85,7 @@ install: build $(INTERPOLATED_FILES)
 	install -m0755 mdmon.udeb $(DESTDIR_UDEB)/sbin/mdmon
 	install -m0644 udev-md-raid-arrays.rules $(DESTDIR_UDEB)/lib/udev/rules.d/63-md-raid-arrays.rules
 	install -m0644 udev-md-raid-assembly.rules $(DESTDIR_UDEB)/lib/udev/rules.d/64-md-raid-assembly.rules
+	install -Dm0644 debian/mdadm-shutdown.service $(DESTDIR)/lib/systemd/system/mdadm-shutdown.service
 
 binary-indep: build install
 

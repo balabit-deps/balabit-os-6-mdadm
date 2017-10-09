@@ -12,9 +12,9 @@ Homepage: http://neil.brown.name/blog/mdadm
 
 Package: mdadm
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, lsb-base (>= 3.1-6), debconf (>= 1.4.72), udev (>= 204), initramfs-tools (>= 0.85eubuntu24), util-linux (>= 2.15-1), initscripts (>= 2.88dsf-13.3)
+Depends: ${shlibs:Depends}, ${misc:Depends}, lsb-base (>= 3.1-6), debconf (>= 1.4.72), udev (>= 204), util-linux (>= 2.15-1), initscripts (>= 2.88dsf-13.3)
 Recommends: kmod | module-init-tools
-Suggests: default-mta | mail-transport-agent
+Suggests: default-mta | mail-transport-agent, dracut-core
 Replaces: mdctl
 Breaks: udev (<< 136-1), mdctl (<< 0.7.2), raidtools2 (<< 1.00.3-12.1), dmraid (<= 1.0.0.rc16-4.2ubuntu1)
 Description: tool to administer Linux MD arrays (software RAID)

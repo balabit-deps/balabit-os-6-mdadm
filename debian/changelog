@@ -1,3 +1,37 @@
+mdadm (3.3-2ubuntu7.6) xenial; urgency=medium
+
+  * Prevent segfault when get_md_name() returns NULL
+    This fixes mdadm segfaults when running inside a container.
+    (LP: #1617919)
+
+ -- Dan Streetman <dan.streetman@canonical.com>  Mon, 09 Oct 2017 10:06:22 -0400
+
+mdadm (3.3-2ubuntu7.5) xenial; urgency=medium
+
+  * Add systemd shutdown script which waits for arrays to be clean during
+    shutdown phase.
+  * Do not take over initramfs mdmon services, and continue running them
+    off initrd to avoid killing mdmon processes before systemd attempts dm
+    detach and hang. As systemd in xenial does not appear to honor
+    sendsigs.omit.d.
+  * Add mdadm-shutdown.service which is recommended to be used on systems
+    with Intel Matrix / DDF raid. It creates a shutdown initramfs which
+    systemd-shutdown may pivot to, and complete clean external metadata
+    raid array shutdown.
+  * LP: #1722491
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Mon, 09 Oct 2017 14:56:09 +0100
+
+mdadm (3.3-2ubuntu7.4) xenial; urgency=medium
+
+  * Drop versioned dependency on initramfs-tools, which was only needed for
+    upgrades and now keeps initramfs-tools installed on systems that don't
+    need it.  LP: #1716818.
+  * Guard calls to update-initramfs -u in the maintainer scripts for a
+    check that the script is present.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Wed, 13 Sep 2017 03:52:18 +0000
+
 mdadm (3.3-2ubuntu7.2) xenial; urgency=medium
 
   * Backport initramfs changes from 3.4-4, to improve reliability of

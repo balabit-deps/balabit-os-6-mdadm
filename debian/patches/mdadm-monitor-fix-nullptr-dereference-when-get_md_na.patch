@@ -1,0 +1,41 @@
+From: Sergey Vidishev <sergeyv@yandex-team.ru>
+Subject: mdadm: monitor: fix nullptr dereference when get_md_name() returns NULL
+Origin: https://github.com/neilbrown/mdadm/commit/1e08717f0b7856b389e9d5eb2dc330d146636183
+Bug-Ubuntu: https://bugs.launchpad.net/bugs/1617919
+
+Function add_new_arrays() expects that function get_md_name() should
+return pointer to devname, but also get_md_name() may return NULL. So
+check the pointer before use it in add_new_arrays().
+
+Signed-off-by: Sergey Vidishev <sergeyv@yandex-team.ru>
+Signed-off-by: NeilBrown <neilb@suse.de>
+---
+ Monitor.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+--- a/Monitor.c
++++ b/Monitor.c
+@@ -657,6 +657,7 @@
+ {
+ 	struct mdstat_ent *mse;
+ 	int new_found = 0;
++	char *name;
+ 
+ 	for (mse=mdstat; mse; mse=mse->next)
+ 		if (mse->devnm[0] &&
+@@ -667,7 +668,14 @@
+ 			struct state *st = xcalloc(1, sizeof *st);
+ 			mdu_array_info_t array;
+ 			int fd;
+-			st->devname = xstrdup(get_md_name(mse->devnm));
++
++			name = get_md_name(mse->devnm);
++			if (!name) {
++				free(st);
++				continue;
++			}
++
++			st->devname = xstrdup(name);
+ 			if ((fd = open(st->devname, O_RDONLY)) < 0 ||
+ 			    ioctl(fd, GET_ARRAY_INFO, &array)< 0) {
+ 				/* no such array */
